@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE plugin SYSTEM "manifest.dtd">
+<plugin version="2">
+	<info>
+		<version>0.1</version>
+		<name>Passwd</name>
+		<title>Password Changer Plugin</title>
+		<author>Saket Patel</author>
+		<authorURL>http://www.zarafa.com</authorURL>
+		<description>Change your password from zarafa webapp</description>
+	</info>
+	<config>
+		<configfile>config.php</configfile>
+	</config>
+	<components>
+		<component>
+			<files>
+				<server>
+					<serverfile>php/plugin.passwd.php</serverfile>
+					<serverfile type="module" module="passwdmodule">php/class.passwdmodule.php</serverfile>
+				</server>
+				<client>
+					<clientfile load="release">js/passwd.js</clientfile>
+					<clientfile load="debug">js/passwd-debug.js</clientfile>
+					<clientfile load="source">js/PasswdPlugin.js</clientfile>
+					<clientfile load="source">js/ABOUT.js</clientfile>
+				</client>
+				<!-- <resources>
+					<resourcefile load="release">resources/css/passwd.css</resourcefile>
+				</resources> -->
+			</files>
+		</component>
+	</components>
+</plugin>
