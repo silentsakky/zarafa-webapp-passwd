@@ -5,4 +5,4 @@ Ext.namespace('Zarafa.plugins.passwd');
  *
  * The copyright string holding the copyright notice for the Zarafa passwd Plugin.
  */
-Zarafa.plugins.sugarcrm.ABOUT = "Something should be here";
+Zarafa.plugins.passwd.ABOUT = "Something should be here";

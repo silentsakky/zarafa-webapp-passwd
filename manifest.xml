@@ -23,6 +23,8 @@
 					<clientfile load="release">js/passwd.js</clientfile>
 					<clientfile load="debug">js/passwd-debug.js</clientfile>
 					<clientfile load="source">js/PasswdPlugin.js</clientfile>
+					<clientfile load="source">js/PasswdContentPanel.js</clientfile>
+					<clientfile load="source">js/PasswdPanel.js</clientfile>
 					<clientfile load="source">js/ABOUT.js</clientfile>
 				</client>
 				<!-- <resources>

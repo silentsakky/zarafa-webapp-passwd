@@ -19,6 +19,49 @@ Zarafa.plugins.passwd.PasswdPlugin = Ext.extend(Zarafa.core.Plugin, {
 		Zarafa.plugins.passwd.PasswdPlugin.superclass.initPlugin.apply(this, arguments);
 
 		this.registerInsertionPoint('main.maintabbar.right', this.putTabbarButton, this);
+
+		// Register common specific dialog types
+		Zarafa.core.data.SharedComponentType.addProperty('plugins.passwd.passwdpanel');
+	},
+
+	/**
+	 * Bid for the type of shared component and the given record.
+	 * @param {Zarafa.core.data.SharedComponentType} type Type of component a context can bid for.
+	 * @param {Ext.data.Record} record Optionally passed record.
+	 * @return {Number} The bid for the shared component
+	 */
+	bidSharedComponent: function(type, record)
+	{
+		var bid = -1;
+
+		switch (type) {
+			// Bid for password dialog
+			case Zarafa.core.data.SharedComponentType['plugins.passwd.passwdpanel']:
+				bid = 1;
+				break;
+		}
+
+		return bid;
+	},
+
+	/**
+	 * Will return the reference to the shared component.
+	 * Based on the type of component requested a component is returned.
+	 * @param {Zarafa.core.data.SharedComponentType} type Type of component a context can bid for.
+	 * @param {Ext.data.Record} record Optionally passed record.
+	 * @return {Ext.Component} Component
+	 */
+	getSharedComponent: function(type, record)
+	{
+		var component;
+
+		switch (type) {
+			case Zarafa.core.data.SharedComponentType['plugins.passwd.passwdpanel']:
+				component = Zarafa.plugins.passwd.PasswdContentPanel;
+				break;
+		}
+
+		return component;
 	},
 
 	/**
@@ -42,7 +85,10 @@ Zarafa.plugins.passwd.PasswdPlugin = Ext.extend(Zarafa.core.Plugin, {
 	 */
 	clickPasswdButton : function()
 	{
-		// open a dialog
+		var componentType = Zarafa.core.data.SharedComponentType['plugins.passwd.passwdpanel'];
+		Zarafa.core.data.UIFactory.openLayerComponent(componentType, undefined, {
+			modal : true
+		});
 	}
 });
 
