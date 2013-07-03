@@ -185,6 +185,7 @@
 		<!-- copy files -->
 		<copy todir="${target-folder}/${plugin-folder}">
 			<fileset dir=".">
+				<include name="lib/**/*.*"/>
 				<include name="resources/**/*.*"/>
 				<include name="php/**/*.php"/>
 				<include name="config.php"/>

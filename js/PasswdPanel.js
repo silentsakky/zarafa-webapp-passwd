@@ -10,6 +10,8 @@ Zarafa.plugins.passwd.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 	/**
 	 * @property
 	 * @type Ext.LoadMask
+	 * Save mask that will be displayed when request has been sent to server for password change
+	 * and waiting for the response.
 	 */
 	saveMask : undefined,
 
@@ -63,6 +65,10 @@ Zarafa.plugins.passwd.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 		this.on('afterrender', this.initialize, this);
 	},
 
+	/**
+	 * Function will initialize this dialog with some default values and will
+	 * also create object of {@link #saveMask}.
+	 */
 	initialize : function()
 	{
 		this.userNameField.setValue(container.getUser().getUserName());
@@ -72,24 +78,51 @@ Zarafa.plugins.passwd.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 		})
 	},
 
+	/**
+	 * Handler function that will be called when user presses ok button
+	 * to change password.
+	 */
 	onOk : function()
 	{
-		// send request
-
+		// show load mask
 		this.saveMask.show();
 
+		// send request
 		container.getRequest().singleRequest('passwdmodule', 'save', {
 			username : this.userNameField.getValue(),
 			current_password : this.oldPasswdField.getValue(),
 			new_password : this.newPasswdField.getValue(),
 			new_password_repeat : this.newPasswdRepeatField.getValue()			
-		//}, new Zarafa.plugins.sugarcrm.data.SugarCRMResponseHandler());
-		});
+		}, new Zarafa.plugins.passwd.data.PasswdResponseHandler({
+			callbackFn : this.callbackFn,
+			scope : this
+		}));
 	},
 
+	/**
+	 * Handler function that will be called when user presses cancel button
+	 * to close the dialog.
+	 */
 	onCancel : function()
 	{
+		// close the dialog
 		this.dialog.close();
+	},
+
+	/**
+	 * Callback function that will be executed after response is received from server.
+	 * @param {Boolean} success boolean to indicate response contains success/failure data.
+	 * @param {Object} response response sent by server.
+	 */
+	callbackFn : function(success, response)
+	{
+		// hide load mask
+		this.saveMask.hide();
+
+		// close the dialog
+		if(success) {
+			this.dialog.close();
+		}
 	}
 });
 

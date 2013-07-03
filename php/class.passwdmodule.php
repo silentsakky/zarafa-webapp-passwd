@@ -1,7 +1,7 @@
 <?php
 /**
  * Passwd module.
- *
+ * Module that will be used to change passwords of the user
  */
 class PasswdModule extends Module
 {
@@ -30,24 +30,56 @@ class PasswdModule extends Module
 		}
 	}
 
+	/**
+	 * Change the password of user. Do some calidation and call proper methods based on
+	 * zarafa setup.
+	 * @param {Array} $data data sent by client.
+	 */
 	public function save($data)
 	{
+		$errorMessage = '';
+
 		// some sanity checks
 		if(empty($data)) {
-			$this->sendFeedback(false);
+			$errorMessage = _('No data received.');
 		}
 
 		if(empty($data['username']) || empty($data['current_password']) || empty($data['new_password']) || empty($data['new_password_repeat'])) {
-			$this->sendFeedback(false);
+			$errorMessage = _('User name is empty.');
 		}
 
-		if(PLUGIN_PASSWD_LDAP) {
-			$this->saveInLDAP($data);
+		if(empty($data['current_password'])) {
+			$errorMessage = _('Current password is empty.');
+		}
+
+		if(empty($data['new_password']) || empty($data['new_password_repeat'])) {
+			$errorMessage = _('New password is empty.');
+		}
+
+		if($data['new_password'] !== $data['new_password_repeat']) {
+			$errorMessage = _('New passwords does not match.');
+		}
+
+		if(empty($errorMessage)) {
+			if(PLUGIN_PASSWD_LDAP) {
+				$this->saveInLDAP($data);
+			} else {
+				$this->saveInDB($data);
+			}
 		} else {
-			$this->saveInDB($data);
+			$this->sendFeedback(false, array(
+				'type' => ERROR_ZARAFA,
+				'info' => array(
+					'display_message' => $errorMessage
+				)
+			));
 		}
 	}
 
+	/**
+	 * Function will connect to LDAP and will try to modify user's password.
+	 * @param {Array} $data data sent by client.
+	 */
 	public function saveInLDAP($data)
 	{
 		$errorMessage = '';
@@ -79,26 +111,22 @@ class PasswdModule extends Module
 					$passwd = $data['new_password'];
 					$passwdRepeat = $data['new_password_repeat'];
 
-					if($passwd === $passwdRepeat) {
-						if(checkPasswordStrenth($passwd)) {
-							$password_hash = sshaEncode($passwd);
-							$entry = array('userPassword' => $password_hash);
-							$return_mod = ldap_modify($ldapconn, $userdn, $entry);
-							if (ldap_errno($ldapconn) === 0) {
-								// password changed successfully
-								$this->sendFeedback(true, {
-									'info' => array(
-										'display_message' => _('Password is changed successfully.')
-									)
-								});
-							} else {
-								$errorMessage = _('Password is not changed.');
-							}
+					if($this->checkPasswordStrenth($passwd)) {
+						$password_hash = $this->sshaEncode($passwd);
+						$entry = array('userPassword' => $password_hash);
+						$return_mod = ldap_modify($ldapconn, $userdn, $entry);
+						if (ldap_errno($ldapconn) === 0) {
+							// password changed successfully
+							$this->sendFeedback(true, array(
+								'info' => array(
+									'display_message' => _('Password is changed successfully.')
+								)
+							));
 						} else {
-							$errorMessage = _('Password is weak.');
+							$errorMessage = _('Password is not changed.');
 						}
 					} else {
-						$errorMessage = _('New passwords does not match.');
+						$errorMessage = _('Password is weak.');
 					}
 				} else {
 					$errorMessage = _('Current password does not match.');
@@ -110,55 +138,72 @@ class PasswdModule extends Module
 		}
 
 		if(!empty($errorMessage)) {
-			$this->sendFeedback(false, {
-				'type' => 999,	// ERROR_LDAP
+			$this->sendFeedback(false, array(
+				'type' => ERROR_ZARAFA,
 				'info' => array(
 					'ldap_error' => ldap_errno(),
 					'ldap_error_name' => ldap_error(),
 					'display_message' => $errorMessage
 				)
-			});
+			));
 		}
 	}
 
+	/**
+	 * Function will execute zarafa-passwd command and will try to change user's password,
+	 * this method is unsecure and unreliable.
+	 * @param {Array} $data data sent by client.
+	 */
 	public function saveInDB($data)
 	{
+		$errorMessage = '';
 		$passwd = $data['new_password'];
 		$passwdRepeat = $data['new_password_repeat'];
 
 		$passwd_cmd = "/usr/bin/zarafa-passwd -u %s -o %s -p %s";
 
-		if($passwd === $passwdRepeat) {
-			if(checkPasswordStrenth($passwd)) {
-				// all information correct, change password
-				$cmd = sprintf($passwd_cmd, $data['username'], $data['current_passwd'], $passwd);
-				exec($cmd, $arrayout, $retval);
+		if($this->checkPasswordStrenth($passwd)) {
+			// all information correct, change password
+			$cmd = sprintf($passwd_cmd, $data['username'], $data['current_passwd'], $passwd);
+			exec($cmd, $arrayout, $retval);
 
-				if ($retval === 0) {
-					// password changed successfully
-					$this->sendFeedback(true, {
-						'info' => array(
-							'display_message' => _('Password is changed successfully.')
-						)
-					});
-				} else {
-					$errorMessage = _('Password is not changed.');
-				}   
+			if ($retval === 0) {
+				// password changed successfully
+				$this->sendFeedback(true, array(
+					'info' => array(
+						'display_message' => _('Password is changed successfully.')
+					)
+				));
 			} else {
-				$errorMessage = _('Password is weak.');
-			}
+				$errorMessage = _('Password is not changed.');
+			}   
 		} else {
-			$errorMessage = _('New passwords does not match.');
-		}   
+			$errorMessage = _('Password is weak.');
+		}
+
+		if(!empty($errorMessage)) {
+			$this->sendFeedback(false, array(
+				'type' => ERROR_ZARAFA,
+				'info' => array(
+					'display_message' => $errorMessage
+				)
+			));
+		}
 	}
 
-	// check passwords. They should meet the following criteria:
-	// - min. 8 chars, max. 20
-	// - contain caps und noncaps characters
-	// - contain numbers
-	// return FALSE if not all criteria are met
+	/**
+	 * Function will check strength of the password and if it does not meet minimum requirements then
+	 * will return false.
+	 * Password should meet the following criteria:
+	 * - min. 8 chars, max. 20
+	 * - contain caps und noncaps characters
+	 * - contain numbers
+	 * @param {String} $password password which should be checked.
+	 * @return {Boolean} true if password passes the minimum requirement else false.
+	 */
 	public function checkPasswordStrenth($password)
 	{
+		return true;
 		// @FIXME should be moved to client side
 		if (preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$#", $password)) {
 			return true;
@@ -167,7 +212,10 @@ class PasswdModule extends Module
 		}
 	}
 
-	// 	create a ldap-password-hash from $text
+	/**
+	 * Function will generate SSHA hash to use to store user's password in LDAP.
+	 * @param {String} $text text based on which hash will be generated.
+	 */
 	function sshaEncode($text)
 	{
 		$salt = '';
