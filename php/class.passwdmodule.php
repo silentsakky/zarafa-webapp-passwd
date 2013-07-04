@@ -164,7 +164,7 @@ class PasswdModule extends Module
 
 		if($this->checkPasswordStrenth($passwd)) {
 			// all information correct, change password
-			$cmd = sprintf($passwd_cmd, $data['username'], $data['current_passwd'], $passwd);
+			$cmd = sprintf($passwd_cmd, $data['username'], $data['current_password'], $passwd);
 			exec($cmd, $arrayout, $retval);
 
 			if ($retval === 0) {
