@@ -4,7 +4,7 @@
  *
  * Allows to change user password from webapp.
  *
- * Author: Saket patel <s.patel@zarafa.com>
+ * Author: Saket patel <silentsakky@gmail.com>
  */
 
 class Pluginpasswd extends Plugin {
