@@ -2,7 +2,7 @@
 <!DOCTYPE plugin SYSTEM "manifest.dtd">
 <plugin version="2">
 	<info>
-		<version>0.1</version>
+		<version>0.2</version>
 		<name>Passwd</name>
 		<title>Password Changer Plugin</title>
 		<author>Saket Patel</author>

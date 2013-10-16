@@ -203,7 +203,6 @@ class PasswdModule extends Module
 	 */
 	public function checkPasswordStrenth($password)
 	{
-		return true;
 		// @FIXME should be moved to client side
 		if (preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$#", $password)) {
 			return true;
