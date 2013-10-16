@@ -18,77 +18,29 @@ Zarafa.plugins.passwd.PasswdPlugin = Ext.extend(Zarafa.core.Plugin, {
 	{
 		Zarafa.plugins.passwd.PasswdPlugin.superclass.initPlugin.apply(this, arguments);
 
-		this.registerInsertionPoint('main.maintabbar.right', this.putTabbarButton, this);
-
-		// Register common specific dialog types
-		Zarafa.core.data.SharedComponentType.addProperty('plugins.passwd.passwdpanel');
+		// Register categories for the settings
+		this.registerInsertionPoint('context.settings.categories', this.createSettingsCategory, this);
 	},
 
 	/**
-	 * Bid for the type of shared component and the given record.
-	 * @param {Zarafa.core.data.SharedComponentType} type Type of component a context can bid for.
-	 * @param {Ext.data.Record} record Optionally passed record.
-	 * @return {Number} The bid for the shared component
-	 */
-	bidSharedComponent: function(type, record)
-	{
-		var bid = -1;
-
-		switch (type) {
-			// Bid for password dialog
-			case Zarafa.core.data.SharedComponentType['plugins.passwd.passwdpanel']:
-				bid = 1;
-				break;
-		}
-
-		return bid;
-	},
-
-	/**
-	 * Will return the reference to the shared component.
-	 * Based on the type of component requested a component is returned.
-	 * @param {Zarafa.core.data.SharedComponentType} type Type of component a context can bid for.
-	 * @param {Ext.data.Record} record Optionally passed record.
-	 * @return {Ext.Component} Component
-	 */
-	getSharedComponent: function(type, record)
-	{
-		var component;
-
-		switch (type) {
-			case Zarafa.core.data.SharedComponentType['plugins.passwd.passwdpanel']:
-				component = Zarafa.plugins.passwd.PasswdContentPanel;
-				break;
-		}
-
-		return component;
-	},
-
-	/**
-	 * Create the button to add to the insertion point as called
-	 * by init().
-	 * @return A struct with the necessary configuration for the button.
+	 * Create the delegate {@link Zarafa.settings.ui.SettingsCategory Settings Category}
+	 * to the {@link Zarafa.settings.SettingsContext}. This will create new
+	 * {@link Zarafa.settings.ui.SettingsCategoryTab tabs} for the
+	 * {@link Zarafa.calendar.ui.SettingsPasswdCategory Password}
+	 * in the {@link Zarafa.settings.ui.SettingsCategoryWidgetPanel Widget Panel}.
+	 * @param {String} insertionName insertion point name that is currently populated
+	 * @param {Zarafa.settings.ui.SettingsMainPanel} settingsMainPanel settings main panel
+	 * which is populating this insertion point
+	 * @param {Zarafa.settings.SettingsContext} settingsContext settings context
+	 * @return {Array} configuration object for the categories to register
 	 * @private
 	 */
-	putTabbarButton : function()
+	createSettingsCategory : function(insertionName, settingsMainPanel, settingsContext)
 	{
 		return {
-			text : _('Change Password'),
-			handler : this.clickPasswdButton
+			xtype : 'zarafa.settingspasswdcategory',
+			settingsContext : settingsContext
 		};
-	},
-
-	/**
-	 * Trigger function called when the user clicks the button in the
-	 * main tab bar.
-	 * @private
-	 */
-	clickPasswdButton : function()
-	{
-		var componentType = Zarafa.core.data.SharedComponentType['plugins.passwd.passwdpanel'];
-		Zarafa.core.data.UIFactory.openLayerComponent(componentType, undefined, {
-			modal : true
-		});
 	}
 });
 

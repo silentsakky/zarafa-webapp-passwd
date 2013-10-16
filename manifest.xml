@@ -6,7 +6,7 @@
 		<name>Passwd</name>
 		<title>Password Changer Plugin</title>
 		<author>Saket Patel</author>
-		<authorURL>http://www.zarafa.com</authorURL>
+		<authorURL>https://github.com/silentsakky</authorURL>
 		<description>Change your password from zarafa webapp</description>
 	</info>
 	<config>
@@ -36,14 +36,12 @@
 					<clientfile load="release">js/passwd.js</clientfile>
 					<clientfile load="debug">js/passwd-debug.js</clientfile>
 					<clientfile load="source">js/PasswdPlugin.js</clientfile>
-					<clientfile load="source">js/PasswdContentPanel.js</clientfile>
-					<clientfile load="source">js/PasswdPanel.js</clientfile>
+					<clientfile load="source">js/settings/SettingsPasswdCategory.js</clientfile>
+					<clientfile load="source">js/settings/SettingsPasswdWidget.js</clientfile>
+					<clientfile load="source">js/settings/PasswdPanel.js</clientfile>
 					<clientfile load="source">js/data/PasswdResponseHandler.js</clientfile>
 					<clientfile load="source">js/ABOUT.js</clientfile>
 				</client>
-				<!-- <resources>
-					<resourcefile load="release">resources/css/passwd.css</resourcefile>
-				</resources> -->
 			</files>
 		</component>
 	</components>

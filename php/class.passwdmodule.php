@@ -44,7 +44,7 @@ class PasswdModule extends Module
 			$errorMessage = _('No data received.');
 		}
 
-		if(empty($data['username']) || empty($data['current_password']) || empty($data['new_password']) || empty($data['new_password_repeat'])) {
+		if(empty($data['username'])) {
 			$errorMessage = _('User name is empty.');
 		}
 
@@ -160,9 +160,9 @@ class PasswdModule extends Module
 		$passwd = $data['new_password'];
 		$passwdRepeat = $data['new_password_repeat'];
 
-		$passwd_cmd = "/usr/bin/zarafa-passwd -u %s -o %s -p %s";
-
 		if($this->checkPasswordStrenth($passwd)) {
+			$passwd_cmd = "/usr/bin/zarafa-passwd -u %s -o %s -p %s";
+
 			// all information correct, change password
 			$cmd = sprintf($passwd_cmd, $data['username'], $data['current_password'], $passwd);
 			exec($cmd, $arrayout, $retval);
@@ -176,7 +176,7 @@ class PasswdModule extends Module
 				));
 			} else {
 				$errorMessage = _('Password is not changed.');
-			}   
+			}
 		} else {
 			$errorMessage = _('Password is weak.');
 		}
@@ -203,6 +203,7 @@ class PasswdModule extends Module
 	 */
 	public function checkPasswordStrenth($password)
 	{
+		return true;
 		// @FIXME should be moved to client side
 		if (preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$#", $password)) {
 			return true;
