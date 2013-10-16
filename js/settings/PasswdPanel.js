@@ -62,22 +62,7 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 			 * @event userchange
 			 * Fires when a field is modified in the form panel
 			 */
-			'userchange',
-			/**
-			 * @event beforesave
-			 * Fires when this form panel about to send request to server
-			 */
-			'beforesave',
-			/**
-			 * @event save
-			 * Fires when this form panel has successfully changed password
-			 */
-			'save',
-			/**
-			 * @event exception
-			 * Fires when this form panel was not able to change password
-			 */
-			'exception'
+			'userchange'
 		);
 
 		Zarafa.plugins.passwd.settings.PasswdPanel.superclass.constructor.apply(this, arguments);
@@ -104,46 +89,6 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 	onFieldChange : function(field, newValue, oldValue)
 	{
 		this.fireEvent('userchange', this);
-	},
-
-	/**
-	 * Function will be called when user presses apply to change password.
-	 */
-	saveChanges : function()
-	{
-		this.fireEvent('beforesave', this);
-
-		var data = this.getForm().getFieldValues();
-
-		// send request
-		container.getRequest().singleRequest('passwdmodule', 'save', data, new Zarafa.plugins.passwd.data.PasswdResponseHandler({
-			callbackFn : this.callbackFn,
-			scope : this
-		}));
-	},
-
-	/**
-	 * Function will be called when user presses discard button to reset
-	 * fields.
-	 */
-	discardChanges : function()
-	{
-		// reset user changes
-		this.getForm().reset();
-	},
-
-	/**
-	 * Callback function that will be executed after response is received from server.
-	 * @param {Boolean} success boolean to indicate response contains success/failure data.
-	 * @param {Object} response response sent by server.
-	 */
-	callbackFn : function(success, response)
-	{
-		if(success) {
-			this.fireEvent('save', this);
-		} else {
-			this.fireEvent('exception', this);
-		}
 	}
 });
 

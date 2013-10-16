@@ -32,8 +32,6 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 				ref : 'passwdPanel',
 				listeners : {
 					userchange : this.setModelDirty,
-					beforesave : this.onBeforeSave,
-
 					scope : this
 				}
 			}]
@@ -67,7 +65,17 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 	{
 		// only save when this category is visible on screen
 		if(this.ownerCt.isVisible()) {
-			this.passwdPanel.saveChanges();
+			this.ownerCt.displaySavingMask();
+
+			var data = this.passwdPanel.getForm().getFieldValues();
+
+			// send request
+			container.getRequest().singleRequest('passwdmodule', 'save', data, new Zarafa.plugins.passwd.data.PasswdResponseHandler({
+				callbackFn : function(success, response) {
+					this.ownerCt.hideSavingMask(success);
+				},
+				scope : this
+			}));
 		}
 	},
 
@@ -79,7 +87,7 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 	 */
 	onDiscardSettings : function()
 	{
-		this.passwdPanel.discardChanges();
+		this.passwdPanel.getForm().reset();
 	},
 
 	/**
