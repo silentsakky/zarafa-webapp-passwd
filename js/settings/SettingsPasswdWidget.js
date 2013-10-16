@@ -32,6 +32,8 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 				ref : 'passwdPanel',
 				listeners : {
 					userchange : this.setModelDirty,
+					beforesave : this.onBeforeSave,
+
 					scope : this
 				}
 			}]
@@ -63,7 +65,10 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 	 */
 	onSaveSettings : function()
 	{
-		this.passwdPanel.saveChanges();
+		// only save when this category is visible on screen
+		if(this.ownerCt.isVisible()) {
+			this.passwdPanel.saveChanges();
+		}
 	},
 
 	/**

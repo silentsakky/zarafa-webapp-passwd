@@ -7,13 +7,6 @@ Ext.namespace('Zarafa.plugins.passwd.settings');
  * Panel which holds a form that will be used to change the password
  */
 Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
-	/**
-	 * @property
-	 * @type Ext.LoadMask
-	 * Save mask that will be displayed when request has been sent to server for password change
-	 * and waiting for the response.
-	 */
-	saveMask : undefined,
 
 	/**
 	 * @constructor
@@ -69,7 +62,22 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 			 * @event userchange
 			 * Fires when a field is modified in the form panel
 			 */
-			'userchange'
+			'userchange',
+			/**
+			 * @event beforesave
+			 * Fires when this form panel about to send request to server
+			 */
+			'beforesave',
+			/**
+			 * @event save
+			 * Fires when this form panel has successfully changed password
+			 */
+			'save',
+			/**
+			 * @event exception
+			 * Fires when this form panel was not able to change password
+			 */
+			'exception'
 		);
 
 		Zarafa.plugins.passwd.settings.PasswdPanel.superclass.constructor.apply(this, arguments);
@@ -86,10 +94,6 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 		this.getForm().setValues({
 			username : container.getUser().getUserName()
 		});
-
-		this.saveMask = new Ext.LoadMask(this.getEl(), {
-			msg : _('Saving please wait ...')
-		})
 	},
 
 	/**
@@ -107,8 +111,7 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 	 */
 	saveChanges : function()
 	{
-		// show load mask
-		this.saveMask.show();
+		this.fireEvent('beforesave', this);
 
 		var data = this.getForm().getFieldValues();
 
@@ -136,8 +139,11 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 	 */
 	callbackFn : function(success, response)
 	{
-		// hide load mask
-		this.saveMask.hide();
+		if(success) {
+			this.fireEvent('save', this);
+		} else {
+			this.fireEvent('exception', this);
+		}
 	}
 });
 
