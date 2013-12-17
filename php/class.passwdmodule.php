@@ -126,7 +126,7 @@ class PasswdModule extends Module
 							$errorMessage = _('Password is not changed.');
 						}
 					} else {
-						$errorMessage = _('Password is weak.');
+						$errorMessage = _('Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
 					}
 				} else {
 					$errorMessage = _('Current password does not match.');
@@ -178,7 +178,7 @@ class PasswdModule extends Module
 				$errorMessage = _('Password is not changed.');
 			}
 		} else {
-			$errorMessage = _('Password is weak.');
+			$errorMessage = _('Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
 		}
 
 		if(!empty($errorMessage)) {
@@ -196,7 +196,7 @@ class PasswdModule extends Module
 	 * will return false.
 	 * Password should meet the following criteria:
 	 * - min. 8 chars, max. 20
-	 * - contain caps und noncaps characters
+	 * - contain caps and noncaps characters
 	 * - contain numbers
 	 * @param {String} $password password which should be checked.
 	 * @return {Boolean} true if password passes the minimum requirement else false.

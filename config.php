@@ -1,6 +1,6 @@
 <?php
 /** Enable the passwd plugin for all clients **/
-define('PLUGIN_PASSWD_USER_DEFAULT_ENABLE', true);
+define('PLUGIN_PASSWD_USER_DEFAULT_ENABLE', false);
 
 /** Define zarafa installtion uses LDAP **/
 define('PLUGIN_PASSWD_LDAP', false);

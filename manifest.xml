@@ -2,9 +2,9 @@
 <!DOCTYPE plugin SYSTEM "manifest.dtd">
 <plugin version="2">
 	<info>
-		<version>0.2</version>
+		<version>1.0</version>
 		<name>Passwd</name>
-		<title>Password Changer Plugin</title>
+		<title>Password Change Plugin</title>
 		<author>Saket Patel</author>
 		<authorURL>https://github.com/silentsakky</authorURL>
 		<description>Change your password from zarafa webapp</description>
