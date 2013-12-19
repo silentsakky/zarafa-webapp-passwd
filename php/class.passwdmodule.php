@@ -89,12 +89,16 @@ class PasswdModule extends Module
 
 		// check connection is successfull
 		if(ldap_errno($ldapconn) === 0) {
+			// get the users uid, if we have a multi tenant installation then remove company name from user name
+			$parts = explode('@', $data['username']);
+			$uid = $parts[0];
+
 			// search for the user dn that will be used to do login into LDAP
 			$userdn = ldap_search (
 				$ldapconn,						// connection-identify
 				PLUGIN_PASSWD_LDAP_BASEDN,		// basedn
-				"uid=".$uid,					// search filter
-				array("dn")						// needed attributes. we need the dn
+				'uid=' . $uid,		// search filter
+				array('dn')						// needed attributes. we need the dn
 			);
 
 			if ($userdn) {
@@ -102,7 +106,7 @@ class PasswdModule extends Module
 				$userdn = $userdn[0]['dn'];
 
 				// bind to ldap directory
-				ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+				ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
 				// login with current password if that fails then current password is wrong
 				$bind = ldap_bind($ladpconn, $userdn, $data['current_password']);
@@ -117,6 +121,13 @@ class PasswdModule extends Module
 						$return_mod = ldap_modify($ldapconn, $userdn, $entry);
 						if (ldap_errno($ldapconn) === 0) {
 							// password changed successfully
+
+							// write new password to session because we don't want user to re-authenticate
+							session_start();
+							$_SESSION['password'] = $passwd;
+							session_write_close();
+
+							// send feedback to client
 							$this->sendFeedback(true, array(
 								'info' => array(
 									'display_message' => _('Password is changed successfully.')
@@ -161,7 +172,7 @@ class PasswdModule extends Module
 		$passwdRepeat = $data['new_password_repeat'];
 
 		if($this->checkPasswordStrenth($passwd)) {
-			$passwd_cmd = "/usr/bin/zarafa-passwd -u %s -o %s -p %s";
+			$passwd_cmd = '/usr/bin/zarafa-passwd -u %s -o %s -p %s';
 
 			// all information correct, change password
 			$cmd = sprintf($passwd_cmd, $data['username'], $data['current_password'], $passwd);
@@ -169,6 +180,13 @@ class PasswdModule extends Module
 
 			if ($retval === 0) {
 				// password changed successfully
+
+				// write new password to session because we don't want user to re-authenticate
+				session_start();
+				$_SESSION['password'] = $passwd;
+				session_write_close();
+
+				// send feedback to client
 				$this->sendFeedback(true, array(
 					'info' => array(
 						'display_message' => _('Password is changed successfully.')
@@ -222,7 +240,7 @@ class PasswdModule extends Module
 			$salt .= substr('0123456789abcdef', rand(0, 15), 1);
 		}
 
-		$hash = '{SSHA}' . base64_encode(pack("H*",sha1($text . $salt)) . $salt);
+		$hash = '{SSHA}' . base64_encode(pack('H*',sha1($text . $salt)) . $salt);
 
 		return $hash;
 	}

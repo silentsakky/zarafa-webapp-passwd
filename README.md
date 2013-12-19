@@ -3,11 +3,11 @@ zarafa-webapp-passwd
 
 The Passwd plugin allows the user to change his password inside of WebApp.
 
-This plugin is largely based on the "Passwd" plugin by Andreas Brodowski.
+This plugin is largely based on the Passwd plugin by Andreas Brodowski.
 For his original work check this [link](https://community.zarafa.com/pg/plugins/project/157/developer/dw2412/passwd-plugin)
 
 ## How to install
-1. If you want to use this plugin with production / debug version of webapp then please download package from [community](__link_to_come__)
+1. If you want to use this plugin with production / debug version of webapp then please download package from [community](https://community.zarafa.com/pg/plugins/project/23147/developer/silentsakky/webapp-password-change)
 2. If you want to use this plugin with source copy of webapp then you can just download this whole project
 3. Extract contents of this plugin to <webapp_path>/plugins directory
 4. Give read permissions to apache for <webapp_path>/plugins/passwd directory
@@ -31,8 +31,8 @@ For his original work check this [link](https://community.zarafa.com/pg/plugins/
 
 ## Notes
 - Feedback/Bug Reports are welcome
-- if anyone is good at creating icons then please help me add a good icon to change password tab (credits will be given)
+- If anyone is good at creating icons then please help me add a good icon to change password tab (credits will be given)
 
 ## Todo
-- add password strength meter on client side, so user can create complex passwords
-- check on client side for empty fields
+- Add password strength meter on client side, so user can create complex passwords
+- Check on client side for empty fields
