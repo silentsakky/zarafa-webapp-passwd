@@ -42,7 +42,7 @@ class Pluginpasswd extends Plugin {
 			'zarafa' => Array(
 				'v1' => Array(
 					'plugins' => Array(
-						'sugarcrm' => Array(
+						'passwd' => Array(
 							'enable'            => PLUGIN_PASSWD_USER_DEFAULT_ENABLE,
 						)
 
