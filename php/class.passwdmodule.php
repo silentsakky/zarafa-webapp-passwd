@@ -90,8 +90,12 @@ class PasswdModule extends Module
 		// check connection is successfull
 		if(ldap_errno($ldapconn) === 0) {
 			// get the users uid, if we have a multi tenant installation then remove company name from user name
-			$parts = explode('@', $data['username']);
-			$uid = $parts[0];
+			if (PLUGIN_PASSWD_LOGIN_WITH_TENANT){
+				$parts = explode('@', $data['username']);
+				$uid = $parts[0];
+			} else {
+				$uid = $data['username'];
+			}
 
 			// search for the user dn that will be used to do login into LDAP
 			$userdn = ldap_search (
