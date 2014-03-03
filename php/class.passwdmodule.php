@@ -109,7 +109,7 @@ class PasswdModule extends Module
 				ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
 				// login with current password if that fails then current password is wrong
-				$bind = ldap_bind($ladpconn, $userdn, $data['current_password']);
+				$bind = ldap_bind($ldapconn, $userdn, $data['current_password']);
 
 				if(ldap_errno($ldapconn) === 0) {
 					$passwd = $data['new_password'];
