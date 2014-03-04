@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: zarafa-webap-plugin-passwd\n"
+"POT-Creation-Date: 2014-03-04 13:53+0100\n"
+"PO-Revision-Date: 2014-03-04 14:34+0100\n"
+"Last-Translator: Sander Hoentjen <sander@hoentjen.eu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl\n"
+
+# php/class.passwdmodule.php:44:
+msgid "No data received."
+msgstr "Geen data ontvangen."
+
+# php/class.passwdmodule.php:48:
+msgid "User name is empty."
+msgstr "Gebruikersnaam is leeg."
+
+# php/class.passwdmodule.php:52:
+msgid "Current password is empty."
+msgstr "Huidig wachtwoord is leeg."
+
+# php/class.passwdmodule.php:56:
+msgid "New password is empty."
+msgstr "Nieuw wachtwoord is leeg."
+
+# php/class.passwdmodule.php:60:
+msgid "New passwords do not match."
+msgstr "Nieuwe wachtwoorden zijn niet gelijk."
+
+# php/class.passwdmodule.php:137:
+# php/class.passwdmodule.php:196:
+# js/data/PasswdResponseHandler.js:44:
+msgid "Password is changed successfully."
+msgstr "Wachtwoord succesvol gewijzigd."
+
+# php/class.passwdmodule.php:141:
+# php/class.passwdmodule.php:200:
+msgid "Password is not changed."
+msgstr "Wachtwoord is niet aangepast."
+
+# php/class.passwdmodule.php:144:
+# php/class.passwdmodule.php:203:
+msgid ""
+"Password is weak. Password should contain capital, non capital letters and "
+"numbers. Password shuold have 8 to 20 characters."
+msgstr ""
+"Wachtwoord is zwak. Een wachtwoord moet hoofdletters, kleine letters en "
+"cijfers bevatten. Een wachtwoord moet 8 tot 20 karakters bevatten."
+
+# php/class.passwdmodule.php:147:
+msgid "Current password does not match."
+msgstr "Huidig wachtwoord klopt niet."
+
+# js/data/PasswdResponseHandler.js:27:
+msgid "An unknown error occurred while changing password."
+msgstr "Er is een onbekende fout opgetreden tijdens de wachtwoord wijziging."
+
+# js/data/PasswdResponseHandler.js:33:
+msgid "Error"
+msgstr "Fout"
+
+# js/data/PasswdResponseHandler.js:50:
+msgid "Success"
+msgstr "Succes"
+
+# js/settings/SettingsPasswdWidget.js:24:
+# js/settings/SettingsPasswdCategory.js:20:
+msgid "Change Password"
+msgstr "Wijzig wachtwoord"
+
+# js/PasswdPlugin.js:50:
+msgid "Password Change Plugin"
+msgstr "Wachtwoord wijzigen plugin"

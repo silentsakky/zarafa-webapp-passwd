@@ -12,6 +12,11 @@
 	<config>
 		<configfile>config.php</configfile>
 	</config>
+	<translations>
+		<translationsdir>languages</translationsdir>
+	</translations>
+
+
 	<components>
 		<!-- <component>
 			<info>
