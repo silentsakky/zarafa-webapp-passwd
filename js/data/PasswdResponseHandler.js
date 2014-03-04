@@ -24,13 +24,13 @@ Zarafa.plugins.passwd.data.PasswdResponseHandler = Ext.extend(Zarafa.core.data.A
 	 */
 	doError : function(response)
 	{
-		var displayMessage = _('An unknown error occurred while changing password.');
+		var displayMessage = dgettext("plugin_passwd", 'An unknown error occurred while changing password.');
 
 		if(response.info) {
 			displayMessage = response.info.display_message;
 		}
 
-		Ext.MessageBox.alert(_('Error'), displayMessage);
+		Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), displayMessage);
 
 		this.callbackFn.apply(this.scope || this, [ false, response ]);
 	},
@@ -41,13 +41,13 @@ Zarafa.plugins.passwd.data.PasswdResponseHandler = Ext.extend(Zarafa.core.data.A
 	 */
 	doSuccess : function(response)
 	{
-		var displayMessage = _('Password is changed successfully.');
+		var displayMessage = dgettext("plugin_passwd", 'Password is changed successfully.');
 
 		if(response.info) {
 			displayMessage = response.info.display_message;
 		}
 
-		Ext.MessageBox.alert(_('Success'), displayMessage);
+		Ext.MessageBox.alert(dgettext("plugin_passwd", 'Success'), displayMessage);
 
 		this.callbackFn.apply(this.scope || this, [ true, response ]);
 	}

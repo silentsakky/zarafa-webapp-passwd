@@ -17,7 +17,7 @@ Zarafa.plugins.passwd.settings.SettingsPasswdCategory = Ext.extend(Zarafa.settin
 		config = config || {};
 
 		Ext.applyIf(config, {
-			title : _('Change Password'),
+			title : dgettext("plugin_passwd", 'Change Password'),
 			categoryIndex : 9997,
 			xtype : 'zarafa.settingspasswdcategory',
 			items : [{

@@ -41,23 +41,23 @@ class PasswdModule extends Module
 
 		// some sanity checks
 		if(empty($data)) {
-			$errorMessage = _('No data received.');
+			$errorMessage = dgettext("plugin_passwd", 'No data received.');
 		}
 
 		if(empty($data['username'])) {
-			$errorMessage = _('User name is empty.');
+			$errorMessage = dgettext("plugin_passwd", 'User name is empty.');
 		}
 
 		if(empty($data['current_password'])) {
-			$errorMessage = _('Current password is empty.');
+			$errorMessage = dgettext("plugin_passwd", 'Current password is empty.');
 		}
 
 		if(empty($data['new_password']) || empty($data['new_password_repeat'])) {
-			$errorMessage = _('New password is empty.');
+			$errorMessage = dgettext("plugin_passwd", 'New password is empty.');
 		}
 
 		if($data['new_password'] !== $data['new_password_repeat']) {
-			$errorMessage = _('New passwords does not match.');
+			$errorMessage = dgettext("plugin_passwd", 'New passwords does not match.');
 		}
 
 		if(empty($errorMessage)) {
@@ -134,17 +134,17 @@ class PasswdModule extends Module
 							// send feedback to client
 							$this->sendFeedback(true, array(
 								'info' => array(
-									'display_message' => _('Password is changed successfully.')
+									'display_message' => dgettext("plugin_passwd", 'Password is changed successfully.')
 								)
 							));
 						} else {
-							$errorMessage = _('Password is not changed.');
+							$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 						}
 					} else {
-						$errorMessage = _('Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
+						$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
 					}
 				} else {
-					$errorMessage = _('Current password does not match.');
+					$errorMessage = dgettext("plugin_passwd", 'Current password does not match.');
 				}
 
 				// release ldap-bind
@@ -193,14 +193,14 @@ class PasswdModule extends Module
 				// send feedback to client
 				$this->sendFeedback(true, array(
 					'info' => array(
-						'display_message' => _('Password is changed successfully.')
+						'display_message' => dgettext("plugin_passwd", 'Password is changed successfully.')
 					)
 				));
 			} else {
-				$errorMessage = _('Password is not changed.');
+				$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 			}
 		} else {
-			$errorMessage = _('Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
+			$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
 		}
 
 		if(!empty($errorMessage)) {

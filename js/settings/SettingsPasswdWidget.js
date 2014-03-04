@@ -21,7 +21,7 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 		Ext.applyIf(config, {
 			height : 175,
 			width : 400,
-			title : _('Change Password'),
+			title : dgettext("plugin_passwd", 'Change Password'),
 			xtype : 'zarafa.settingspasswdwidget',
 			layout : {
 				// override from SettingsWidget
