@@ -18,7 +18,7 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 
 		Ext.applyIf(config, {
 			xtype : 'zarafa.passwdpanel',
-			labelWidth : 150,
+			labelWidth : 200,
 			defaults : {
 				width : 200
 			},
@@ -26,11 +26,11 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 			items : [{
 				xtype : 'displayfield',
 				name : 'username',
-				fieldLabel : 'User name'
+				fieldLabel : dgettext("plugin_passwd", 'User name')
 			}, {
 				xtype : 'textfield',
 				name : 'current_password',
-				fieldLabel : 'Current password',
+				fieldLabel : dgettext("plugin_passwd", 'Current password'),
 				inputType : 'password',
 				listeners : {
 					change : this.onFieldChange,
@@ -39,7 +39,7 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 			}, {
 				xtype : 'textfield',
 				name : 'new_password',
-				fieldLabel : 'New password',
+				fieldLabel : dgettext("plugin_passwd", 'New password'),
 				inputType : 'password',
 				listeners : {
 					change : this.onFieldChange,
@@ -48,7 +48,7 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 			}, {
 				xtype : 'textfield',
 				name : 'new_password_repeat',
-				fieldLabel : 'Retype new password',
+				fieldLabel : dgettext("plugin_passwd", 'Retype new password'),
 				inputType : 'password',
 				listeners : {
 					change : this.onFieldChange,

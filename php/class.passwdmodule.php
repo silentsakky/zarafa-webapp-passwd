@@ -57,7 +57,7 @@ class PasswdModule extends Module
 		}
 
 		if($data['new_password'] !== $data['new_password_repeat']) {
-			$errorMessage = dgettext("plugin_passwd", 'New passwords does not match.');
+			$errorMessage = dgettext("plugin_passwd", 'New passwords do not match.');
 		}
 
 		if(empty($errorMessage)) {
