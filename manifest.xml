@@ -13,7 +13,7 @@
 		<configfile>config.php</configfile>
 	</config>
 	<translations>
-		<translationsdir>languages</translationsdir>
+		<translationsdir>language</translationsdir>
 	</translations>
 
 

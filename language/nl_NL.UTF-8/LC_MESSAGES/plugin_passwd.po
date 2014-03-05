@@ -76,3 +76,20 @@ msgstr "Wijzig wachtwoord"
 # js/PasswdPlugin.js:50:
 msgid "Password Change Plugin"
 msgstr "Wachtwoord wijzigen plugin"
+
+# js/settings/PasswdPanel.js:29:
+msgid "User name"
+msgstr "Gebruikersnaam"
+
+# js/settings/PasswdPanel.js:33:
+msgid "Current password"
+msgstr "Huidig wachtwoord"
+
+# js/settings/PasswdPanel.js:42:
+msgid "New password"
+msgstr "Nieuw wachtwoord"
+
+#js/settings/PasswdPanel.js:51:
+msgid "Retype new password"
+msgstr "Herhaal nieuw wachtwoord"
+

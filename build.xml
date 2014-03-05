@@ -3,6 +3,7 @@
 	<property name="root-folder" value="${basedir}/../../"/>
 	<property name="tools-folder" value="${root-folder}/tools/"/>
 	<property name="target-folder" value="${root-folder}/deploy/plugins"/>
+	<property name="language-folder" value="${basedir}/language"/>
 
 	<import file="${tools-folder}/antutil.xml"/>
 
@@ -41,6 +42,10 @@
 			<fileset dir="${target-folder}/${plugin-folder}/js">
 				<include name="${plugin-file}"/>
 				<include name="${plugin-debugfile}"/>
+			</fileset>
+			<!-- Delete the .mo files -->
+			<fileset dir="${language-folder}">
+				<include name="**/LC_MESSAGES/*.mo"/>
 			</fileset>
 		</delete>
 	</target>
@@ -156,8 +161,40 @@
 		</exec>
 	</target>
 
+	<!-- Generate language files -->
+	<target name="language">
+		<if>
+			<available file="msgfmt" filepath="${env.PATH}" />
+			<then>
+				<foreach target="msgfmt" param="file">
+					<path>
+						<fileset dir="${language-folder}">
+							<include name="**/LC_MESSAGES/*.po"/>
+						</fileset>
+					</path>
+				</foreach>
+			</then>
+			<else>
+				<echo message="WARNING: msgfmt not available, not generating *.mo files for translations"/>
+			</else>
+		</if>
+	</target>
+
+	<target name="msgfmt">
+		<propertyregex property="outfile" input="${file}" regexp=".*\/(language\/.*)\.po" replace="${target-folder}/${plugin-folder}/\1\.mo"/>
+		<echo message="Converting ${file} to ${outfile}"/>
+		<dirname property="outdir" file="${outfile}"/>
+		<mkdir dir="${outdir}"/>
+		<exec executable="msgfmt" failonerror="true">
+			<arg value="-v"/>
+			<arg value="-o"/>
+			<arg value="${outfile}"/>
+			<arg value="${file}"/>
+		</exec>
+	</target>
+
 	<!-- Install all files into the target folder -->
-	<target name="deploy" depends="compress, validate">
+	<target name="deploy" depends="compress, validate, language">
 		<mkdir dir="${target-folder}/${plugin-folder}"/>
 
 		<!-- Copy (and validate) manifest.xml -->
@@ -193,6 +230,7 @@
 				<exclude name="build.xml"/>
 				<!-- CSS is generated during build -->
 				<exclude name="resources/css/*.*"/>
+				<exclude name="**/LC_MESSAGES/*.po"/>
 			</fileset>
 		</copy>
 	</target>
