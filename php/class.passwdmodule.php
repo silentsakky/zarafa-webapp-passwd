@@ -156,8 +156,8 @@ class PasswdModule extends Module
 			$this->sendFeedback(false, array(
 				'type' => ERROR_ZARAFA,
 				'info' => array(
-					'ldap_error' => ldap_errno(),
-					'ldap_error_name' => ldap_error(),
+					'ldap_error' => ldap_errno($ldapconn),
+					'ldap_error_name' => ldap_error($ldapconn),
 					'display_message' => $errorMessage
 				)
 			));
