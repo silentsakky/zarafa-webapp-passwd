@@ -141,7 +141,7 @@ class PasswdModule extends Module
 							$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 						}
 					} else {
-						$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
+						$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.');
 					}
 				} else {
 					$errorMessage = dgettext("plugin_passwd", 'Current password does not match.');
@@ -197,7 +197,7 @@ class PasswdModule extends Module
 				$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 			}
 		} else {
-			$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
+			$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.');
 		}
 
 		if(!empty($errorMessage)) {
