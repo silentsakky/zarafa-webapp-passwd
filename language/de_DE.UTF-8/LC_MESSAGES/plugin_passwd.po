@@ -3,45 +3,44 @@ msgstr ""
 "Project-Id-Version: zarafa-webapp-plugin-passwd\n"
 "POT-Creation-Date: 2014-03-04 13:53+0100\n"
 "PO-Revision-Date: 2014-03-04 14:34+0100\n"
-"Last-Translator: Sander Hoentjen <sander@hoentjen.eu>\n"
+"Last-Translator: Robert Scheck <zarafa@robert-scheck.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: nl\n"
+"Language: de\n"
 
 # php/class.passwdmodule.php:44:
 msgid "No data received."
-msgstr "Geen data ontvangen."
+msgstr "Keine Daten empfangen!"
 
 # php/class.passwdmodule.php:48:
 msgid "User name is empty."
-msgstr "Gebruikersnaam is leeg."
+msgstr "Benutzername ist leer!"
 
 # php/class.passwdmodule.php:52:
 msgid "Current password is empty."
-msgstr "Huidig wachtwoord is leeg."
+msgstr "Aktuelles Passwort ist leer!"
 
 # php/class.passwdmodule.php:56:
 msgid "New password is empty."
-msgstr "Nieuw wachtwoord is leeg."
+msgstr "Neues Passwort ist leer!"
 
 # php/class.passwdmodule.php:60:
 msgid "New passwords do not match."
-msgstr "Nieuwe wachtwoorden zijn niet gelijk."
+msgstr "Neue Passwörter stimmen nicht überein!"
 
 # php/class.passwdmodule.php:137:
 # php/class.passwdmodule.php:196:
 # js/data/PasswdResponseHandler.js:44:
 msgid "Password is changed successfully."
-msgstr "Wachtwoord succesvol gewijzigd."
+msgstr "Passwort wurde erfolgreich geändert!"
 
 # php/class.passwdmodule.php:141:
 # php/class.passwdmodule.php:200:
 msgid "Password is not changed."
-msgstr "Wachtwoord is niet aangepast."
+msgstr "Passwort wurde nicht geändert!"
 
 # php/class.passwdmodule.php:144:
 # php/class.passwdmodule.php:203:
@@ -49,47 +48,46 @@ msgid ""
 "Password is weak. Password should contain capital, non-capital letters and "
 "numbers. Password should have 8 to 20 characters."
 msgstr ""
-"Wachtwoord is zwak. Een wachtwoord moet hoofdletters, kleine letters en "
-"cijfers bevatten. Een wachtwoord moet 8 tot 20 karakters bevatten."
+"Das eingegebene Passwort ist schwach; es sollte große und kleine Buchstaben "
+"sowie Ziffern enthalten und zwischen 8 und 20 Zeichen lang sein!"
 
 # php/class.passwdmodule.php:147:
 msgid "Current password does not match."
-msgstr "Huidig wachtwoord klopt niet."
+msgstr "Aktuelles Passwort ist falsch!"
 
 # js/data/PasswdResponseHandler.js:27:
 msgid "An unknown error occurred while changing password."
-msgstr "Er is een onbekende fout opgetreden tijdens de wachtwoord wijziging."
+msgstr "Beim Ändern des Passworts ist ein unbekannter Fehler aufgetreten!"
 
 # js/data/PasswdResponseHandler.js:33:
 msgid "Error"
-msgstr "Fout"
+msgstr "Fehler"
 
 # js/data/PasswdResponseHandler.js:50:
 msgid "Success"
-msgstr "Succes"
+msgstr "Erfolg"
 
 # js/settings/SettingsPasswdWidget.js:24:
 # js/settings/SettingsPasswdCategory.js:20:
 msgid "Change Password"
-msgstr "Wijzig wachtwoord"
+msgstr "Passwort ändern"
 
 # js/PasswdPlugin.js:50:
 msgid "Password Change Plugin"
-msgstr "Wachtwoord wijzigen plugin"
+msgstr "Passwortänderungsplugin"
 
 # js/settings/PasswdPanel.js:29:
 msgid "User name"
-msgstr "Gebruikersnaam"
+msgstr "Benutzername"
 
 # js/settings/PasswdPanel.js:33:
 msgid "Current password"
-msgstr "Huidig wachtwoord"
+msgstr "Aktuelles Passwort"
 
 # js/settings/PasswdPanel.js:42:
 msgid "New password"
-msgstr "Nieuw wachtwoord"
+msgstr "Neues Passwort"
 
 #js/settings/PasswdPanel.js:51:
 msgid "Retype new password"
-msgstr "Herhaal nieuw wachtwoord"
-
+msgstr "Wiederholung"

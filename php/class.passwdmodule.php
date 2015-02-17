@@ -141,7 +141,7 @@ class PasswdModule extends Module
 							$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 						}
 					} else {
-						$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
+						$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.');
 					}
 				} else {
 					$errorMessage = dgettext("plugin_passwd", 'Current password does not match.');
@@ -165,8 +165,7 @@ class PasswdModule extends Module
 	}
 
 	/**
-	 * Function will execute zarafa-passwd command and will try to change user's password,
-	 * this method is unsecure and unreliable.
+	 * Function will try to change user's password via MAPI in SOAP connection.
 	 * @param {Array} $data data sent by client.
 	 */
 	public function saveInDB($data)
@@ -176,13 +175,11 @@ class PasswdModule extends Module
 		$passwdRepeat = $data['new_password_repeat'];
 
 		if($this->checkPasswordStrenth($passwd)) {
-			$passwd_cmd = '/usr/bin/zarafa-passwd -u %s -o %s -p %s';
-
 			// all information correct, change password
-			$cmd = sprintf($passwd_cmd, $data['username'], $data['current_password'], $passwd);
-			exec($cmd, $arrayout, $retval);
+			$store = $GLOBALS['mapisession']->getDefaultMessageStore();
+			$userinfo = mapi_zarafa_getuser_by_name($store, $data['username']);
 
-			if ($retval === 0) {
+			if (mapi_zarafa_setuser($store, $userinfo['userid'], $data['username'], $userinfo['fullname'], $userinfo['emailaddress'], $passwd, 0, $userinfo['admin'])) {
 				// password changed successfully
 
 				// write new password to session because we don't want user to re-authenticate
@@ -200,7 +197,7 @@ class PasswdModule extends Module
 				$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 			}
 		} else {
-			$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non capital letters and numbers. Password shuold have 8 to 20 characters.');
+			$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.');
 		}
 
 		if(!empty($errorMessage)) {
