@@ -19,11 +19,14 @@ Zarafa.plugins.passwd.settings.SettingsPasswdCategory = Ext.extend(Zarafa.settin
 		Ext.applyIf(config, {
 			title : dgettext("plugin_passwd", 'Change Password'),
 			categoryIndex : 9997,
+			iconCls : 'zarafa-settings-category-passwd',
 			xtype : 'zarafa.settingspasswdcategory',
 			items : [{
 				xtype : 'zarafa.settingspasswdwidget',
 				settingsContext : config.settingsContext
-			}]
+			},
+				container.populateInsertionPoint('context.settings.category.passwd', this)
+			]
 		});
 
 		Zarafa.plugins.passwd.settings.SettingsPasswdCategory.superclass.constructor.call(this, config);

@@ -19,14 +19,9 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 		config = config || {};
 
 		Ext.applyIf(config, {
-			height : 175,
-			width : 400,
 			title : dgettext("plugin_passwd", 'Change Password'),
 			xtype : 'zarafa.settingspasswdwidget',
-			layout : {
-				// override from SettingsWidget
-				type : 'fit'
-			},
+			layout: 'form',
 			items : [{
 				xtype : 'zarafa.passwdpanel',
 				ref : 'passwdPanel',
@@ -51,8 +46,40 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 		// listen to savesettings and discardsettings to save/discard delegation data
 		var contextModel = this.settingsContext.getModel();
 
+		this.mon(contextModel, 'beforesavesettings', this.onBeforeSaveSettings, this);
 		this.mon(contextModel, 'savesettings', this.onSaveSettings, this);
 		this.mon(contextModel, 'discardsettings', this.onDiscardSettings, this);
+	},
+
+	/**
+	 * Event handler will be called when {@link Zarafa.settings.SettingsContextModel#beforesavesettings} event is fired.
+	 * This function will validate the formdata.
+	 *
+	 * @private
+	 */
+	onBeforeSaveSettings : function()
+	{
+		// do some quick checks before submitting
+		if(this.passwdPanel.new_password.getValue() != this.passwdPanel.new_password_repeat.getValue()) {
+			Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), dgettext("plugin_passwd", 'New passwords do not match.'));
+			return false;
+		} else if(Ext.isEmpty(this.passwdPanel.current_password.getValue())) {
+			Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), dgettext("plugin_passwd", 'Current password is empty.'));
+			return false;
+		} else if(Ext.isEmpty(this.passwdPanel.new_password.getValue()) || Ext.isEmpty(this.passwdPanel.new_password_repeat.getValue())) {
+			Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), dgettext("plugin_passwd", 'New password is empty.'));
+			return false;
+		} else if(!this.passwdPanel.getForm().isValid()) {
+			Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), dgettext("plugin_passwd", 'One or more fields does contain errors.'));
+			return false;
+		} else {
+			// do a quick score check:
+			if(this.passwdPanel.new_password.getScore() < 70) {
+				Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.'));
+				return false;
+			}
+			return true;
+		}
 	},
 
 	/**
@@ -71,8 +98,11 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 
 			// send request
 			container.getRequest().singleRequest('passwdmodule', 'save', data, new Zarafa.plugins.passwd.data.PasswdResponseHandler({
-				callbackFn : function(success, response) {
+				callbackFn: function (success, response) {
 					this.ownerCt.hideSavingMask(success);
+					if(success) {
+						this.passwdPanel.getForm().reset();
+					}
 				},
 				scope : this
 			}));

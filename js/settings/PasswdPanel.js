@@ -30,26 +30,30 @@ Zarafa.plugins.passwd.settings.PasswdPanel = Ext.extend(Ext.form.FormPanel, {
 			}, {
 				xtype : 'textfield',
 				name : 'current_password',
+				ref : 'current_password',
 				fieldLabel : dgettext("plugin_passwd", 'Current password'),
 				inputType : 'password',
+				allowBlank : false,
 				listeners : {
 					change : this.onFieldChange,
 					scope : this
 				}
 			}, {
-				xtype : 'textfield',
+				xtype : 'ux.passwordmeterfield',
 				name : 'new_password',
+				ref : 'new_password',
+				allowBlank : false,
 				fieldLabel : dgettext("plugin_passwd", 'New password'),
-				inputType : 'password',
 				listeners : {
 					change : this.onFieldChange,
 					scope : this
 				}
 			}, {
-				xtype : 'textfield',
+				xtype : 'ux.passwordmeterfield',
 				name : 'new_password_repeat',
+				allowBlank : false,
+				ref : 'new_password_repeat',
 				fieldLabel : dgettext("plugin_passwd", 'Retype new password'),
-				inputType : 'password',
 				listeners : {
 					change : this.onFieldChange,
 					scope : this
