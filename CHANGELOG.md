@@ -5,3 +5,8 @@
 ## 1.1 (19th Dec 2013)
 
   - Bug fixes for LDAP plugin
+
+## 1.2 (20th May 2015)
+
+  - Bug fixes for LDAP plugin
+  - Improved UI

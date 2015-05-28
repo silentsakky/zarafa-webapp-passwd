@@ -2,7 +2,7 @@
 <!DOCTYPE plugin SYSTEM "manifest.dtd">
 <plugin version="2">
 	<info>
-		<version>1.0</version>
+		<version>1.2</version>
 		<name>Passwd</name>
 		<title>Password Change Plugin</title>
 		<author>Saket Patel</author>
@@ -18,19 +18,6 @@
 
 
 	<components>
-		<!-- <component>
-			<info>
-				<name>passwordmeter</name>
-				<title>PasswordMeter</title>
-				<author>Eelco Wiersma</author>
-				<description>Ext user extension to check password strength</description>
-			</info>
-			<files>
-				<client>
-					<clientfile>lib/PasswordMeter.js</clientfile>
-				</client>
-			</files>
-		</component> -->
 		<component>
 			<files>
 				<server>
@@ -40,13 +27,20 @@
 				<client>
 					<clientfile load="release">js/passwd.js</clientfile>
 					<clientfile load="debug">js/passwd-debug.js</clientfile>
+
 					<clientfile load="source">js/PasswdPlugin.js</clientfile>
 					<clientfile load="source">js/settings/SettingsPasswdCategory.js</clientfile>
 					<clientfile load="source">js/settings/SettingsPasswdWidget.js</clientfile>
 					<clientfile load="source">js/settings/PasswdPanel.js</clientfile>
 					<clientfile load="source">js/data/PasswdResponseHandler.js</clientfile>
 					<clientfile load="source">js/ABOUT.js</clientfile>
+					<clientfile load="source">js/external/PasswordMeter.js</clientfile>
 				</client>
+				<resources>
+					<resourcefile load="release">resources/css/passwd.css</resourcefile>
+					<resourcefile load="debug">resources/css/passwd.css</resourcefile>
+					<resourcefile load="source">resources/css/passwd-main.css</resourcefile>
+				</resources>
 			</files>
 		</component>
 	</components>
