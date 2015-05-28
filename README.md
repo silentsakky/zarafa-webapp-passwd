@@ -31,8 +31,4 @@ For his original work check this [link](https://community.zarafa.com/pg/plugins/
 
 ## Notes
 - Feedback/Bug Reports are welcome
-- If anyone is good at creating icons then please help me add a good icon to change password tab (credits will be given)
-
-## Todo
-- Add password strength meter on client side, so user can create complex passwords
-- Check on client side for empty fields
+- thanks to h44z for adding password meter and icon for the plugin
