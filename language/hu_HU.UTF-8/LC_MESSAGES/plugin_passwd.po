@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: zarafa-webapp-plugin-passwd\n"
+"POT-Creation-Date: 2014-03-04 13:53+0100\n"
+"PO-Revision-Date: 2016-04-08 21:28+0200\n"
+"Last-Translator: David Horvath <dacr@dacr.hu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hu\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+# php/class.passwdmodule.php:44:
+msgid "No data received."
+msgstr "Nem érkezett adat."
+
+# php/class.passwdmodule.php:48:
+msgid "User name is empty."
+msgstr "Felhasználónév mező üres."
+
+# php/class.passwdmodule.php:52:
+msgid "Current password is empty."
+msgstr "Jelenlegi jelszó mező üres."
+
+# php/class.passwdmodule.php:56:
+msgid "New password is empty."
+msgstr "Új jelszó mező üres."
+
+# php/class.passwdmodule.php:60:
+msgid "New passwords do not match."
+msgstr "Az új jelszavak nem egyeznek."
+
+# php/class.passwdmodule.php:137:
+# php/class.passwdmodule.php:196:
+# js/data/PasswdResponseHandler.js:44:
+msgid "Password is changed successfully."
+msgstr "A jelszót sikeresen módosította."
+
+# php/class.passwdmodule.php:141:
+# php/class.passwdmodule.php:200:
+msgid "Password is not changed."
+msgstr "A jelszó nem módosult."
+
+# php/class.passwdmodule.php:144:
+# php/class.passwdmodule.php:203:
+msgid ""
+"Password is weak. Password should contain capital, non-capital letters and "
+"numbers. Password should have 8 to 20 characters."
+msgstr ""
+"A jelszó gyenge. Tartalmaznia kell számot, nagy- és kisbetűt. A jelszó "
+"minimum 8, maximum 20 karakter legyen."
+
+# php/class.passwdmodule.php:147:
+msgid "Current password does not match."
+msgstr "A jelenlegi jelszó nem megfelelő."
+
+# js/data/PasswdResponseHandler.js:27:
+msgid "An unknown error occurred while changing password."
+msgstr "Ismeretlen hiba történt a jelszó megváltoztatásakor."
+
+# js/data/PasswdResponseHandler.js:33:
+msgid "Error"
+msgstr "Hiba"
+
+# js/data/PasswdResponseHandler.js:50:
+msgid "Success"
+msgstr "Sikeres"
+
+# js/settings/SettingsPasswdWidget.js:24:
+# js/settings/SettingsPasswdCategory.js:20:
+msgid "Change Password"
+msgstr "Jelszó megváltoztatása"
+
+# js/PasswdPlugin.js:50:
+msgid "Password Change Plugin"
+msgstr "Jelszóváltoztatás kiegészítő"
+
+# js/settings/PasswdPanel.js:29:
+msgid "User name"
+msgstr "Felhasználónév"
+
+# js/settings/PasswdPanel.js:33:
+msgid "Current password"
+msgstr "Jelenlegi jelszó"
+
+# js/settings/PasswdPanel.js:42:
+msgid "New password"
+msgstr "Új jelszó"
+
+# js/settings/PasswdPanel.js:51:
+msgid "Retype new password"
+msgstr "Új jelszó mégegyszer"
