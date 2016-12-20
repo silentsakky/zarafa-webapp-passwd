@@ -114,12 +114,12 @@ class PasswdModule extends Module
 				$ldapconn,						// connection-identify
 				PLUGIN_PASSWD_LDAP_BASEDN,		// basedn
 				'uid=' . $uid,					// search filter
-				array('dn')						// needed attributes. we need the dn
+				array('dn', 'objectClass')	// needed attributes. we need dn and objectclass
 			);
 
 			if ($userdn) {
-				$userdn = ldap_get_entries($ldapconn, $userdn);
-				$userdn = $userdn[0]['dn'];
+				$entries = ldap_get_entries($ldapconn, $userdn);
+				$userdn = $entries[0]['dn'];
 
 				// bind to ldap directory
 				// login with current password if that fails then current password is wrong
@@ -132,6 +132,10 @@ class PasswdModule extends Module
 					if ($this->checkPasswordStrenth($passwd)) {
 						$password_hash = $this->sshaEncode($passwd);
 						$entry = array('userPassword' => $password_hash);
+						if (in_array('sambaSamAccount', $entries[0]['objectclass'])) {
+							$nthash = strtoupper(bin2hex(mhash(MHASH_MD4, iconv("UTF-8","UTF-16LE", $passwd))));
+							$entry['sambaNTPassword'] = $nthash;
+						}
 						ldap_modify($ldapconn, $userdn, $entry);
 						if (ldap_errno($ldapconn) === 0) {
 							// password changed successfully
