@@ -135,6 +135,7 @@ class PasswdModule extends Module
 						if (in_array('sambaSamAccount', $entries[0]['objectclass'])) {
 							$nthash = strtoupper(bin2hex(mhash(MHASH_MD4, iconv("UTF-8","UTF-16LE", $passwd))));
 							$entry['sambaNTPassword'] = $nthash;
+							$entry['sambaPwdLastSet'] = strval(time());
 						}
 						ldap_modify($ldapconn, $userdn, $entry);
 						if (ldap_errno($ldapconn) === 0) {
