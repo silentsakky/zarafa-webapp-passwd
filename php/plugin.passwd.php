@@ -43,9 +43,9 @@ class Pluginpasswd extends Plugin {
 				'v1' => Array(
 					'plugins' => Array(
 						'passwd' => Array(
-							'enable'            => PLUGIN_PASSWD_USER_DEFAULT_ENABLE,
+							'enable'                 => PLUGIN_PASSWD_USER_DEFAULT_ENABLE,
+							'enable_strict_check'    => PLUGIN_PASSWD_STRICT_CHECK_ENABLE,
 						)
-
 					)
 				)
 			)

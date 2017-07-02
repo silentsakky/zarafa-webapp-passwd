@@ -2,7 +2,10 @@
 /** Enable the passwd plugin for all clients **/
 define('PLUGIN_PASSWD_USER_DEFAULT_ENABLE', false);
 
-/** Define zarafa installtion uses LDAP **/
+/** Enable the passwd plugin for all clients **/
+define('PLUGIN_PASSWD_STRICT_CHECK_ENABLE', true);
+
+/** Define passwd plugin installation uses LDAP **/
 define('PLUGIN_PASSWD_LDAP', false);
 
 /** Base DN to access LDAP users **/
