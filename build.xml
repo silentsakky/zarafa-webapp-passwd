@@ -233,5 +233,13 @@
 				<exclude name="**/LC_MESSAGES/*.po"/>
 			</fileset>
 		</copy>
+
+		<!-- Create zip file for release (ant -Drelease=true) -->
+		<if>
+			<isset property="release" />
+			<then>
+				<zip destfile="${target-folder}/${plugin}.zip" update="true" basedir="${target-folder}/${plugin}" />
+			</then>
+		</if>
 	</target>
 </project>
