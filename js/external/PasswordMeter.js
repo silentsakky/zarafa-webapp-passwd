@@ -62,7 +62,8 @@ Ext.ux.form.field.PasswordMeter = Ext.extend(Ext.form.TextField, {
 
 
 		var width = this.getEl().getWidth();
-		this.strengthMeterID = newID = Ext.id();
+		var newID = Ext.id();
+		this.strengthMeterID = newID;
 		this.scoreBarID = Ext.id();
 		var objMeter = Ext.DomHelper.insertAfter(this.getEl(), {
 			tag: "div",

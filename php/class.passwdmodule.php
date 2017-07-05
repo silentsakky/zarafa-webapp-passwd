@@ -83,6 +83,9 @@ class PasswdModule extends Module
 	public function saveInLDAP($data)
 	{
 		$errorMessage = '';
+		$userName = $data['username'];
+		$newPassword = $data['new_password'];
+		$sessionPass = '';
 
 		// connect to LDAP server
 		$ldapconn = ldap_connect(PLUGIN_PASSWD_LDAP_URI);
@@ -91,10 +94,10 @@ class PasswdModule extends Module
 		if(ldap_errno($ldapconn) === 0) {
 			// get the users uid, if we have a multi tenant installation then remove company name from user name
 			if (PLUGIN_PASSWD_LOGIN_WITH_TENANT){
-				$parts = explode('@', $data['username']);
+				$parts = explode('@', $userName);
 				$uid = $parts[0];
 			} else {
-				$uid = $data['username'];
+				$uid = $userName;
 			}
 
 			// check if we should use tls!
@@ -126,48 +129,35 @@ class PasswdModule extends Module
 				ldap_bind($ldapconn, $userdn, $data['current_password']);
 
 				if(ldap_errno($ldapconn) === 0) {
+					$password_hash = $this->sshaEncode($newPassword);
+					$entry = array('userPassword' => $password_hash);
 
-					$passwd = $data['new_password'];
+					if (in_array('sambaSamAccount', $entries[0]['objectclass'])) {
+						$nthash = strtoupper(bin2hex(mhash(MHASH_MD4, iconv("UTF-8", "UTF-16LE", $newPassword))));
+						$entry['sambaNTPassword'] = $nthash;
+						$entry['sambaPwdLastSet'] = strval(time());
+					}
 
-					if ($this->checkPasswordStrenth($passwd)) {
-						$password_hash = $this->sshaEncode($passwd);
-						$entry = array('userPassword' => $password_hash);
-						if (in_array('sambaSamAccount', $entries[0]['objectclass'])) {
-							$nthash = strtoupper(bin2hex(mhash(MHASH_MD4, iconv("UTF-8","UTF-16LE", $passwd))));
-							$entry['sambaNTPassword'] = $nthash;
-							$entry['sambaPwdLastSet'] = strval(time());
-						}
-						ldap_modify($ldapconn, $userdn, $entry);
-						if (ldap_errno($ldapconn) === 0) {
-							// password changed successfully
+					ldap_modify($ldapconn, $userdn, $entry);
+					if (ldap_errno($ldapconn) === 0) {
+						// password changed successfully
 
-							// write new password to session because we don't want user to re-authenticate
-							session_start();
-							// if user has openssl module installed
-							if(function_exists("openssl_encrypt")) {
-								// In PHP 5.3.3 the iv parameter was added
-								if(version_compare(phpversion(), "5.3.3", "<")) {
-									$_SESSION['password'] = openssl_encrypt($passwd,"des-ede3-cbc",PASSWORD_KEY,0);
-								} else {
-									$_SESSION['password'] = openssl_encrypt($passwd,"des-ede3-cbc",PASSWORD_KEY,0,PASSWORD_IV);
-								}
-							}
-							else {
-								$_SESSION['password'] = $passwd;
-							}
-							session_write_close();
+						// send feedback to client
+						$this->sendFeedback(true, array(
+							'info' => array(
+								'display_message' => dgettext("plugin_passwd", 'Password is changed successfully.')
+							)
+						));
 
-							// send feedback to client
-							$this->sendFeedback(true, array(
-								'info' => array(
-									'display_message' => dgettext("plugin_passwd", 'Password is changed successfully.')
-								)
-							));
-						} else {
-							$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
-						}
+						// write new password to session because we don't want user to re-authenticate
+						session_start();
+						$encryptionStore = EncryptionStore::getInstance();
+						$encryptionStore->add('password', $newPassword);
+						session_write_close();
+
+						return true;
 					} else {
-						$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.');
+						$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 					}
 				} else {
 					$errorMessage = dgettext("plugin_passwd", 'Current password does not match.');
@@ -197,10 +187,11 @@ class PasswdModule extends Module
 	public function saveInDB($data)
 	{
 		$errorMessage = '';
-		$passwd = $data['new_password'];
+		$userName = $data['username'];
+		$newPassword = $data['new_password'];
+		$sessionPass = '';
 
 		// get current session password
-		$sessionPass = $_SESSION['password'];
 		// if this plugin is used on a webapp version with EncryptionStore,
 		// $_SESSION['password'] is no longer available. User EncryptionStore
 		// in this case.
@@ -212,54 +203,31 @@ class PasswdModule extends Module
 			$encryptionStore = EncryptionStore::getInstance();
 			$sessionPass = $encryptionStore->get("password");
 		}
-		// if user has openssl module installed
-		else if (function_exists("openssl_decrypt")) {
-			if (version_compare(phpversion(), "5.3.3", "<")) {
-				$sessionPass = openssl_decrypt($sessionPass, "des-ede3-cbc", PASSWORD_KEY, 0);
-			} else {
-				$sessionPass = openssl_decrypt($sessionPass, "des-ede3-cbc", PASSWORD_KEY, 0, PASSWORD_IV);
-			}
-
-			if (!$sessionPass) {
-				$sessionPass = $_SESSION['password'];
-			}
-		}
 
 		if($data['current_password'] === $sessionPass) {
-			if ($this->checkPasswordStrenth($passwd)) {
-				// all information correct, change password
-				$store = $GLOBALS['mapisession']->getDefaultMessageStore();
-				$userinfo = mapi_zarafa_getuser_by_name($store, $data['username']);
+			// all information correct, change password
+			$store = $GLOBALS['mapisession']->getDefaultMessageStore();
+			$userinfo = mapi_zarafa_getuser_by_name($store, $userName);
 
-				if (mapi_zarafa_setuser($store, $userinfo['userid'], $data['username'], $userinfo['fullname'], $userinfo['emailaddress'], $passwd, 0, $userinfo['admin'])) {
-					// password changed successfully
+			if (mapi_zarafa_setuser($store, $userinfo['userid'], $userName, $userinfo['fullname'], $userinfo['emailaddress'], $newPassword, 0, $userinfo['admin'])) {
+				// password changed successfully
 
-					// write new password to session because we don't want user to re-authenticate
-					session_start();
-					// if user has openssl module installed
-					if (function_exists("openssl_encrypt")) {
-						// In PHP 5.3.3 the iv parameter was added
-						if (version_compare(phpversion(), "5.3.3", "<")) {
-							$_SESSION['password'] = openssl_encrypt($passwd, "des-ede3-cbc", PASSWORD_KEY, 0);
-						} else {
-							$_SESSION['password'] = openssl_encrypt($passwd, "des-ede3-cbc", PASSWORD_KEY, 0, PASSWORD_IV);
-						}
-					} else {
-						$_SESSION['password'] = $passwd;
-					}
-					session_write_close();
+				// send feedback to client
+				$this->sendFeedback(true, array(
+					'info' => array(
+						'display_message' => dgettext("plugin_passwd", 'Password is changed successfully.')
+					)
+				));
 
-					// send feedback to client
-					$this->sendFeedback(true, array(
-						'info' => array(
-							'display_message' => dgettext("plugin_passwd", 'Password is changed successfully.')
-						)
-					));
-				} else {
-					$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
-				}
+				// write new password to session because we don't want user to re-authenticate
+				session_start();
+				$encryptionStore = EncryptionStore::getInstance();
+				$encryptionStore->add('password', $newPassword);
+				session_write_close();
+
+				return true;
 			} else {
-				$errorMessage = dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.');
+				$errorMessage = dgettext("plugin_passwd", 'Password is not changed.');
 			}
 		} else {
 			$errorMessage = dgettext("plugin_passwd", 'Current password does not match.');
@@ -272,25 +240,6 @@ class PasswdModule extends Module
 					'display_message' => $errorMessage
 				)
 			));
-		}
-	}
-
-	/**
-	 * Function will check strength of the password and if it does not meet minimum requirements then
-	 * will return false.
-	 * Password should meet the following criteria:
-	 * - min. 8 chars, max. 20
-	 * - contain caps and noncaps characters
-	 * - contain numbers
-	 * @param {String} $password password which should be checked.
-	 * @return {Boolean} true if password passes the minimum requirement else false.
-	 */
-	public function checkPasswordStrenth($password)
-	{
-		if (preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$#", $password)) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 

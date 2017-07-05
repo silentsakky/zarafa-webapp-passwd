@@ -72,14 +72,15 @@ Zarafa.plugins.passwd.settings.SettingsPasswdWidget = Ext.extend(Zarafa.settings
 		} else if(!this.passwdPanel.getForm().isValid()) {
 			Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), dgettext("plugin_passwd", 'One or more fields does contain errors.'));
 			return false;
-		} else {
+		} else if (container.getSettingsModel().get("zarafa/v1/plugins/passwd/enable_strict_check")) {
 			// do a quick score check:
 			if(this.passwdPanel.new_password.getScore() < 70) {
 				Ext.MessageBox.alert(dgettext("plugin_passwd", 'Error'), dgettext("plugin_passwd", 'Password is weak. Password should contain capital, non-capital letters and numbers. Password should have 8 to 20 characters.'));
 				return false;
 			}
-			return true;
 		}
+
+		return true;
 	},
 
 	/**

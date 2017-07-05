@@ -6,7 +6,7 @@ Ext.namespace('Zarafa.plugins.passwd');
  * The copyright string holding the copyright notice for the Zarafa passwd Plugin.
  */
 Zarafa.plugins.passwd.ABOUT = ""
-	+ "<p>Copyright (C) 2013  Saket Patel &lt;silentsakky@gmail.com&gt;</p>"
+	+ "<p>Copyright (C) 2013 - 2017  Saket Patel &lt;silentsakky@gmail.com&gt;</p>"
 
 	+ "<p>This program is free software: you can redistribute it and/or modify "
 	+ "it under the terms of the GNU Affero General Public License as "

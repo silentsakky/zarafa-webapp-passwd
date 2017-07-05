@@ -1,5 +1,5 @@
 Zarafa Webapp Password Change Plugin
-Copyright (C) 2013  Saket Patel silentsakky@gmail.com
+Copyright (C) 2013 - 2017  Saket Patel <silentsakky@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by

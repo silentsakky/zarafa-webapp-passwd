@@ -10,3 +10,9 @@
 
   - Bug fixes for LDAP plugin
   - Improved UI
+
+## 1.3 (6th July 2017)
+
+  - Add config to enable/disable strict password checking
+  - use encryptionstore to retrieve/store passwords
+  - move strict password checking to client side
